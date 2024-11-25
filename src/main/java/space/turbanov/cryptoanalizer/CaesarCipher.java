@@ -37,13 +37,12 @@ public class CaesarCipher
     }
 
     private static String doOperation(String operation, String[] parameters) throws IOException {
-        int key = Integer.valueOf(parameters[2]);
         String sourceFile = parameters[0];
         String targetFile = parameters[1];
 
         return switch (operation) {
-            case "encode" -> encode(key, sourceFile, targetFile);
-            case "decode" -> decode(key, sourceFile, targetFile);
+            case "encode" -> encode(Integer.parseInt(parameters[2]), sourceFile, targetFile);
+            case "decode" -> decode(Integer.parseInt(parameters[2]), sourceFile, targetFile);
             case "brutforce" -> brutForce();
             default -> RESULT_ERROR;
         };
