@@ -79,7 +79,7 @@ public class CaesarCipher
             for (char aChar : line.toCharArray()) {
                 int idx = ALPHABET_INDEX.getOrDefault(aChar, -1);
                 if (idx != -1) {
-                    int newIdx = (idx + key + Math.abs(key) * len) % len;
+                    int newIdx = (idx + key + len) % len;
                     newLine.append(ALPHABET[newIdx]);
                 } else {
                     newLine.append(aChar);
