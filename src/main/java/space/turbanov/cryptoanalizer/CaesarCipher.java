@@ -50,10 +50,22 @@ public class CaesarCipher
     }
 
     private static BufferedReader readFile(String fileName) throws IOException {
+        Path path = Path.of(fileName);
+
+        if (path.isAbsolute()) {
+            return Files.newBufferedReader(path);
+        }
+
         return Files.newBufferedReader(Path.of(TXT_DIR + fileName));
     }
 
     private static BufferedWriter writeFile(String fileName) throws IOException {
+        Path path = Path.of(fileName);
+
+        if (path.isAbsolute()) {
+            return Files.newBufferedWriter(path);
+        }
+
         return Files.newBufferedWriter(Path.of(TXT_DIR + fileName));
     }
 
