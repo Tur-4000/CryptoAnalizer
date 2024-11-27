@@ -39,10 +39,11 @@ public class CaesarCipher
     private static String doOperation(String operation, String[] parameters) throws IOException {
         String sourceFile = parameters[0];
         String targetFile = parameters[1];
+        int key = Integer.parseInt(parameters[2]);
 
         return switch (operation) {
-            case "encode" -> encode(Integer.parseInt(parameters[2]), sourceFile, targetFile);
-            case "decode" -> decode(Integer.parseInt(parameters[2]), sourceFile, targetFile);
+            case "encode" -> encode(key, sourceFile, targetFile);
+            case "decode" -> decode(-1 * key, sourceFile, targetFile);
             case "brutforce" -> brutForce();
             default -> RESULT_ERROR;
         };
@@ -56,55 +57,52 @@ public class CaesarCipher
         return Files.newBufferedWriter(Path.of(TXT_DIR + fileName));
     }
 
-    private static String encode(int key, String sourceFile, String targetFile) throws IOException {
-        BufferedReader source = readFile(sourceFile);
-        BufferedWriter target = writeFile(targetFile);
+    private static String processFiles(int key, BufferedReader source, BufferedWriter target) throws IOException {
+        int len = ALPHABET.length;
 
         while (source.ready()) {
             String line = source.readLine();
             StringBuilder newLine = new StringBuilder();
+
             for (char aChar : line.toCharArray()) {
                 int idx = ALPHABET_INDEX.getOrDefault(aChar, -1);
                 if (idx != -1) {
-                    newLine.append(ALPHABET[(idx + key) % ALPHABET.length]);
+                    int newIdx = (idx + key + Math.abs(key) * len) % len;
+                    newLine.append(ALPHABET[newIdx]);
                 } else {
                     newLine.append(aChar);
                 }
             }
+
             target.write(newLine.toString());
             target.write("\n");
         }
 
+        return RESULT_OK;
+    }
+
+    private static String encode(int key, String sourceFile, String targetFile) throws IOException {
+        BufferedReader source = readFile(sourceFile);
+        BufferedWriter target = writeFile(targetFile);
+
+        String result = processFiles(key, source, target);
+
         source.close();
         target.close();
 
-        return RESULT_OK;
+        return result;
     }
 
     private static String decode(int key, String sourceFile, String targetFile) throws IOException {
         BufferedReader source = readFile(sourceFile);
         BufferedWriter target = writeFile(targetFile);
 
-        while (source.ready()) {
-            String line = source.readLine();
-            StringBuilder newLine = new StringBuilder();
-            for (char aChar : line.toCharArray()) {
-                int idx = ALPHABET_INDEX.getOrDefault(aChar, -1);
-                if (idx != -1) {
-                    int newIdx = (idx - key) < 0 ? ALPHABET.length + (idx - key) : (idx - key);
-                    newLine.append(ALPHABET[newIdx]);
-                } else {
-                    newLine.append(aChar);
-                }
-            }
-            target.write(newLine.toString());
-            target.write("\n");
-        }
+        String result = processFiles(key, source, target);
 
         source.close();
         target.close();
 
-        return RESULT_OK;
+        return result;
     }
 
     private static String brutForce() {
