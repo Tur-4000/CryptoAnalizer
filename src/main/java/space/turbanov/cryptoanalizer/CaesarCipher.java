@@ -1,28 +1,20 @@
 package space.turbanov.cryptoanalizer;
 
+import space.turbanov.cryptoanalizer.constants.Alphabet;
+
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 
 public class CaesarCipher
 {
     private static final String TXT_DIR = System.getProperty("user.dir") + File.separator + "texts" + File.separator;
     private static final String RESULT_OK = "OK";
     private static final String RESULT_ERROR = "ERROR";
-    private static final String lat = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    private static final String cyr = "абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ";
-    private static final String symbols = ".,”’:;#@$^&*()[]{}<>-!?\"'—\\|/_+= ";
-    private static final char[] ALPHABET = (lat + cyr + symbols).toCharArray();
-    private static final Map<Character, Integer> ALPHABET_INDEX = new HashMap<>();
+    
+    private static Alphabet alphabet = new Alphabet();
 
-    static {
-        for (int i = 0; i < ALPHABET.length; i++) {
-            ALPHABET_INDEX.put(ALPHABET[i], i);
-        }
-    }
 
     public static void main(String[] args) {
         String operation = args[0];
@@ -70,23 +62,10 @@ public class CaesarCipher
     }
 
     private static String processFiles(int key, BufferedReader source, BufferedWriter target) throws IOException {
-        int len = ALPHABET.length;
-
         while (source.ready()) {
             String line = source.readLine();
-            StringBuilder newLine = new StringBuilder();
-
-            for (char aChar : line.toCharArray()) {
-                int idx = ALPHABET_INDEX.getOrDefault(aChar, -1);
-                if (idx != -1) {
-                    int newIdx = (idx + key + len) % len;
-                    newLine.append(ALPHABET[newIdx]);
-                } else {
-                    newLine.append(aChar);
-                }
-            }
-
-            target.write(newLine.toString());
+            String processedLine = processLine(line, key);
+            target.write(processedLine);
             target.write("\n");
         }
 
@@ -117,9 +96,31 @@ public class CaesarCipher
         return result;
     }
 
+//    TODO: написать метод brutForce()
     private static String brutForce() {
 
         return RESULT_OK;
     }
 
+    private static char shiftSymbol(int index, int offset, char symbol) {
+        int length = alphabet.ALPHABET.length;
+
+        if (index != -1) {
+            int shiftedIndex = (index + offset + (Math.abs(offset) * length)) % length;
+            return alphabet.ALPHABET[shiftedIndex];
+        }
+
+        return symbol;
+    }
+
+    private static String processLine(String line, int key) {
+        StringBuilder processedLine = new StringBuilder();
+
+        for (char aChar : line.toCharArray()) {
+            int index = alphabet.ALPHABET_INDEX.getOrDefault(aChar, -1);
+            processedLine.append(shiftSymbol(index, key, aChar));
+        }
+
+        return processedLine.toString();
+    }
 }
