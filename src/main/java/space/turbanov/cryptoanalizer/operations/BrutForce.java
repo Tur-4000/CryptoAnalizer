@@ -1,0 +1,18 @@
+package space.turbanov.cryptoanalizer.operations;
+
+import space.turbanov.cryptoanalizer.entity.Result;
+import space.turbanov.cryptoanalizer.entity.ResultCode;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+
+public class BrutForce extends AbstractOperation {
+
+    // TODO: написать метод brutForce()
+    @Override
+    public Result execute(String[] parameters)  throws IOException {
+
+        return new Result(ResultCode.OK, "operation complete successful");
+    }
+}

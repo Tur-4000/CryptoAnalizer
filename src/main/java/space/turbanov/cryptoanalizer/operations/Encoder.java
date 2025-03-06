@@ -1,7 +1,6 @@
 package space.turbanov.cryptoanalizer.operations;
 
 import space.turbanov.cryptoanalizer.entity.Result;
-import space.turbanov.cryptoanalizer.entity.ResultCode;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -11,8 +10,8 @@ public class Encoder extends AbstractOperation {
 
     @Override
     public Result execute(String[] parameters) throws IOException {
-        BufferedReader source = readFile(parameters[0]);
-        BufferedWriter target = writeFile(parameters[1]);
+        BufferedReader source = getBufferedReader(parameters[0]);
+        BufferedWriter target = getBufferedWriter(parameters[1]);
         int key = Integer.parseInt(parameters[2]);
 
         Result result = processFiles(key, source, target);
@@ -21,6 +20,5 @@ public class Encoder extends AbstractOperation {
         target.close();
 
         return result;
-//        return new Result(ResultCode.OK, "encode complete successful");
     }
 }

@@ -51,23 +51,21 @@ public abstract class AbstractOperation implements Operation {
         return symbol;
     }
 
-    public BufferedReader readFile(String fileName) throws IOException {
+    private Path getPath(String fileName) {
         Path path = Path.of(fileName);
 
-        if (path.isAbsolute()) {
-            return Files.newBufferedReader(path);
-        }
-
-        return Files.newBufferedReader(Path.of(TXT_DIR + fileName));
+        return path.isAbsolute()
+                ? path
+                : Path.of(TXT_DIR + fileName);
     }
 
-    public BufferedWriter writeFile(String fileName) throws IOException {
-        Path path = Path.of(fileName);
+    BufferedReader getBufferedReader(String fileName) throws IOException {
 
-        if (path.isAbsolute()) {
-            return Files.newBufferedWriter(path);
-        }
+        return Files.newBufferedReader(getPath(fileName));
+    }
 
-        return Files.newBufferedWriter(Path.of(TXT_DIR + fileName));
+    BufferedWriter getBufferedWriter(String fileName) throws IOException {
+
+        return Files.newBufferedWriter(getPath(fileName));
     }
 }
