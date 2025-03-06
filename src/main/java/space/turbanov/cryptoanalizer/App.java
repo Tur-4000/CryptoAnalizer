@@ -1,14 +1,10 @@
 package space.turbanov.cryptoanalizer;
 
-import space.turbanov.cryptoanalizer.constants.Alphabet;
 import space.turbanov.cryptoanalizer.controllers.MainController;
 import space.turbanov.cryptoanalizer.entity.Result;
-import space.turbanov.cryptoanalizer.entity.ResultCode;
 import space.turbanov.cryptoanalizer.exceptions.AppException;
 
-import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.io.IOException;
 import java.util.Arrays;
 
 public class App
