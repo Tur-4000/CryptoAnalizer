@@ -20,7 +20,7 @@ public enum Operations {
             Operations value = Operations.valueOf(operationName.toUpperCase());
             return value.operation;
         } catch (IllegalArgumentException e) {
-            throw new AppException();
+            throw new AppException("not found " + operationName + " operation", e);
         }
     }
 }

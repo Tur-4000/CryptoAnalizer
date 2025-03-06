@@ -21,13 +21,13 @@ public class App
         this.mainController = new MainController();
     }
 
-    public Result run(String... args) throws IOException {
+    public Result run(String... args) {
         if (args.length > 0) {
             String operation = args[0];
             String[] parameters = Arrays.copyOfRange(args, 1, args.length);
             return mainController.doOperation(operation, parameters);
         } else {
-            throw new AppException();
+            throw new AppException("no arguments");
         }
 //
 //
