@@ -1,29 +1,46 @@
 package space.turbanov.cryptoanalizer;
 
 import space.turbanov.cryptoanalizer.constants.Alphabet;
+import space.turbanov.cryptoanalizer.controllers.MainController;
 import space.turbanov.cryptoanalizer.entity.Result;
 import space.turbanov.cryptoanalizer.entity.ResultCode;
+import space.turbanov.cryptoanalizer.exceptions.AppException;
 
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Arrays;
 
-public class CaesarCipher
+public class App
 {
     private static final String TXT_DIR = System.getProperty("user.dir") + File.separator + "texts" + File.separator;
-    public static final String RESULT_ERROR = "ERROR";
 
-    public static Result doOperation(String operation, String[] parameters) throws IOException {
-        String sourceFile = parameters[0];
-        String targetFile = parameters[1];
-        int key = Integer.parseInt(parameters[2]);
+    private final MainController mainController;
 
-        return switch (operation) {
-            case "encode" -> encode(key, sourceFile, targetFile);
-            case "decode" -> decode(-1 * key, sourceFile, targetFile);
-            case "brutforce" -> brutForce();
-            default -> new Result(ResultCode.ERROR, "some error");
-        };
+    public App() {
+        this.mainController = new MainController();
+    }
+
+    public Result run(String... args) throws IOException {
+        if (args.length > 0) {
+            String operation = args[0];
+            String[] parameters = Arrays.copyOfRange(args, 1, args.length);
+            return mainController.doOperation(operation, parameters);
+        } else {
+            throw new AppException();
+        }
+//
+//
+//        String sourceFile = parameters[0];
+//        String targetFile = parameters[1];
+//        int key = Integer.parseInt(parameters[2]);
+//
+//        return switch (operation) {
+//            case "encode" -> encode(key, sourceFile, targetFile);
+//            case "decode" -> decode(-1 * key, sourceFile, targetFile);
+//            case "brutforce" -> brutForce();
+//            default -> new Result(ResultCode.ERROR, "some error");
+//        };
     }
 
     private static BufferedReader readFile(String fileName) throws IOException {
