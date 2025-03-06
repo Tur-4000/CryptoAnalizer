@@ -9,7 +9,7 @@ public class MainController {
 
     public Result doOperation(String operationName, String[] parameters) throws IOException {
 
-        Operation operation = Operations.find(operationName);
+        Operation operation = Operations.getOperation(operationName);
 
         return operation.execute(parameters);
     }

@@ -5,7 +5,7 @@ import space.turbanov.cryptoanalizer.entity.ResultCode;
 
 import java.io.IOException;
 
-public class BrutForce extends AbstractOperation {
+public class BruteForce extends AbstractOperation {
 
     // TODO: написать метод brutForce()
     @Override
