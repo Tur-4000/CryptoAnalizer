@@ -1,15 +1,13 @@
 package space.turbanov.cryptoanalizer.controllers;
 
 import space.turbanov.cryptoanalizer.exceptions.AppException;
-import space.turbanov.cryptoanalizer.operations.BruteForce;
-import space.turbanov.cryptoanalizer.operations.Decoder;
-import space.turbanov.cryptoanalizer.operations.Encoder;
-import space.turbanov.cryptoanalizer.operations.Operation;
+import space.turbanov.cryptoanalizer.operations.*;
 
 public enum Operations {
     ENCODE(new Encoder()),
     DECODE(new Decoder()),
-    BRUTEFORCE(new BruteForce());
+    BRUTEFORCE(new BruteForce()),
+    EXIT(new Exit());
 
     private final Operation operation;
 
