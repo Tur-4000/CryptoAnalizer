@@ -2,7 +2,6 @@ package space.turbanov.cryptoanalizer.operations;
 
 import space.turbanov.cryptoanalizer.constants.Alphabet;
 import space.turbanov.cryptoanalizer.entity.Result;
-import space.turbanov.cryptoanalizer.entity.ResultCode;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
