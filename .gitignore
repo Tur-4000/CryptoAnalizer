@@ -10,3 +10,6 @@ target/
 *.ipr
 
 *.class
+/texts/decrypted.txt
+/texts/encoded.txt
+/texts/decoded.txt

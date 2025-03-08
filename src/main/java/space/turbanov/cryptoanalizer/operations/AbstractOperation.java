@@ -28,7 +28,7 @@ public abstract class AbstractOperation implements Operation {
         return new Result(ResultCode.OK, "operation complete successful");
     }
 
-    private String processLine(String line, int key) {
+    String processLine(String line, int key) {
         StringBuilder processedLine = new StringBuilder();
 
         for (char aChar : line.toCharArray()) {
